@@ -1,5 +1,6 @@
 import yt_dlp
 import asyncio
+import os
 
 class YTDownloader:
     def __init__(self):
@@ -11,6 +12,12 @@ class YTDownloader:
             'extract_flat': False, # We want full formats, not just list
             'skip_download': True, # We only extract info!
         }
+        
+        # Check if cookies.txt exists in the root directory
+        # This is essential for bypassing YouTube bot detection on cloud servers
+        if os.path.exists("cookies.txt"):
+            self.ydl_opts['cookiefile'] = "cookies.txt"
+
 
     async def extract_info(self, url: str) -> dict:
         """
